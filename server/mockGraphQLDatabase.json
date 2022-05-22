@@ -1,0 +1,23 @@
+{
+  "prescriptions": [
+    {
+      "id": 1,
+      "patient": "Ba Popescu",
+      "prescripedFor": "Random disease",
+      "dueDate": "06-09-2022",
+      "compensated": true,
+      "medication_id": 1
+    }
+  ],
+  "medications": [
+    {
+      "id": 1,
+      "name": "Ibuprofen",
+      "description": "Aspirin is a medication used to reduce pain, fever, or inflammation. Specific inflammatory conditions which aspirin is used to treat include Kawasaki disease, pericarditis, and rheumatic fever.",
+      "dateAdded": "05-04-2022",
+      "alternativeNames": ["Ascriptin", "Aspergum", "Aspirtab"],
+      "canBeTakenWithoutPrescription": false,
+      "pricePerUnit": 0.27
+    }
+  ]
+}

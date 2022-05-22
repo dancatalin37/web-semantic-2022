@@ -1,0 +1,70 @@
+{
+  "medications": [
+    {
+      "id": 1,
+      "name": "Aspirin",
+      "description": "Aspirin is a medication used to reduce pain, fever, or inflammation. Specific inflammatory conditions which aspirin is used to treat include Kawasaki disease, pericarditis, and rheumatic fever.",
+      "dateAdded": "05-04-2022",
+      "alternativeNames": [
+        "Ascriptin",
+        "Aspergum",
+        "Aspirtab"
+      ],
+      "canBeTakenWithoutPrescription": true,
+      "pricePerUnit": 0.27
+    },
+    {
+      "id": 2,
+      "name": "abcd",
+      "description": "abcd is a",
+      "dateAdded": "05-04-2022",
+      "alternativeNames": [
+        "abcd"
+      ],
+      "canBeTakenWithoutPrescription": false,
+      "pricePerUnit": 0.35
+    }
+  ],
+  "prescriptions": [
+    {
+      "id": 1,
+      "patient": "Andrei Popescu",
+      "prescripedFor": "Flu Virus",
+      "dueDate": "06-09-2022",
+      "compensated": true,
+      "medicationId": 1
+    },
+    {
+      "patient": "Axi",
+      "prescripedFor": "Cristi",
+      "dueDate": "2022-05-05",
+      "compensated": true,
+      "medicationId": 2,
+      "id": 2
+    },
+    {
+      "patient": "Mircescu",
+      "prescripedFor": "Test",
+      "dueDate": "2022-05-04",
+      "compensated": true,
+      "medicationId": 2,
+      "id": 3
+    },
+    {
+      "patient": "Vlad",
+      "prescripedFor": "Vlad",
+      "dueDate": "2022-06-03",
+      "compensated": true,
+      "medicationId": 2,
+      "id": 4
+    },
+    {
+      "patient": "d",
+      "prescripedFor": "d",
+      "dueDate": "2022-05-05",
+      "compensated": true,
+      "medicationId": 2,
+      "id": 5
+    }
+  ]
+}

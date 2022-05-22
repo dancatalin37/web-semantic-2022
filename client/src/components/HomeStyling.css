@@ -1,0 +1,38 @@
+form {
+  font-family: "Montserrat" !important;
+}
+button {
+  background-color: rgb(100, 92, 161) !important;
+  border: 0px !important;
+}
+
+.prescription-header {
+  font-family: "Montserrat ExtraBold" !important;
+  color: rgb(92, 89, 89) !important;
+  font-size: 40px;
+}
+
+thead {
+  background-color: rgb(100, 92, 161) !important;
+  color: white;
+  height: 60px !important;
+}
+
+th {
+  text-transform: uppercase;
+  line-height: 60px !important;
+  text-align: left;
+  font-size: 11px;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  font-family: "Montserrat";
+}
+
+tr {
+  font-family: "Montserrat";
+  border: 2px rgb(241, 241, 241) solid !important;
+}
+
+li {
+  list-style: none !important;
+}
