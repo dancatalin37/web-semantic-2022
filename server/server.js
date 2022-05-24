@@ -22,7 +22,7 @@ let arr = [];
 
 app.get("/rdf4j", async (req, res) => {
   const endpointUrl =
-    "http://localhost:8080/rdf4j-workbench/repositories/websemanticproiect/query";
+    "http://localhost:8080/rdf4j-workbench/repositories/grafexamen/query";
   const query = `
   PREFIX : <http://axicatawebsemantic.ro#>
 SELECT DISTINCT ?patient ?meds ?prescripedFor ?dueDate ?compensated
