@@ -3,11 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import "./HomeStyling.css";
 import TableData from "./TableData";
+import SecondTableData from "./SecondTableData";
+import ThirdTableData from "./ThirdTableData";
 
 const HomePage = () => {
   const PRESCRIPTIONS_API_ENDPOINT = "http://localhost:3030/prescription";
   const MEDICATIONS_API_ENDPOINT = "http://localhost:3030/medications";
   const GRAPHQL_ENDPOINT = "http://localhost:3000/";
+  const RDF_ENDPOINT = "http://localhost:3030/rdf4j";
 
   const [patient, setPatient] = useState("");
   const [prescripedFor, setPrescripedFor] = useState("");
@@ -16,7 +19,11 @@ const HomePage = () => {
   const [medicationId, setMedicationId] = useState(1);
   const [response, setResponse] = useState([]);
   const [showTable, setShowTable] = useState(false);
+  const [showSecondTable, setShowSecondTable] = useState(false);
+  const [showThirdTable, setShowThirdTable] = useState(false);
   const [fetchedMedications, setFetchedMedications] = useState([]);
+  const [graphQLResponse, setGraphQLResponse] = useState([]);
+  const [rdfResponse, setrdfResponse] = useState([]);
 
   const checkIfCompensated = (value) => {
     value === "True" ? setCompensated(true) : setCompensated(false);
@@ -73,8 +80,6 @@ const HomePage = () => {
     });
   });
 
-  console.log(prescriptionsArray);
-
   async function sendDataToGraphQL(meds, prescriptions) {
     meds.forEach((med) => {
       axios({
@@ -89,7 +94,7 @@ const HomePage = () => {
         `,
         },
       })
-        .then((response) => console.log(response))
+        .then()
         .catch((error) => console.log(error.response.data));
     });
     prescriptions.forEach((prescription) => {
@@ -98,17 +103,45 @@ const HomePage = () => {
         method: "post",
         data: {
           query: `mutation {
-          createPrescription(patient: "${prescription.patient}", prescripedFor: "${prescription.prescripedFor}", dueDate: "${prescription.dueDate}", compensated: ${prescription.compensated}, medication_id: ${prescription.medicationId}) {
+          createPrescription(patient: "${
+            prescription.patient
+          }", prescripedFor: "${prescription.prescripedFor}", dueDate: "${
+            prescription.dueDate
+          }", compensated: ${prescription.compensated}, medication_id: ${
+            prescription.medicationId + 1
+          }) {
             patient, medication_id
           }
         }
         `,
         },
       })
-        .then((response) => console.log(response))
+        .then(response)
         .catch((error) => console.log(error.response.data));
     });
+    axios({
+      url: GRAPHQL_ENDPOINT,
+      method: "post",
+      data: {
+        query: `{
+          allMedications{id, name, description, dateAdded, alternativeNames, canBeTakenWithoutPrescription, pricePerUnit, Prescriptions{id, patient, prescripedFor
+          , compensated, medication_id}}
+        }
+      `,
+      },
+    })
+      .then((response) => {
+        setGraphQLResponse(response);
+        setShowSecondTable(true);
+      })
+      .catch((error) => console.log(error.response.data));
   }
+
+  const handleRDFGetRequest = async (req, res) => {
+    const result = await axios(RDF_ENDPOINT);
+    setrdfResponse(result.data.message);
+    setShowThirdTable(true);
+  };
 
   return (
     <div>
@@ -189,16 +222,14 @@ const HomePage = () => {
                   }
                   className="btn btn-primary col-lg-10 mt-4"
                 >
-                  Insert prescription into json-server and fetch all
-                  prescriptions
+                  Insert prescription and fetch the rest of prescriptions
                 </button>
               </form>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="container mt-5">
+      <div className="container-fluid mt-5">
         {response && showTable == true ? (
           <div className="row">
             <TableData props={response} />
@@ -207,14 +238,44 @@ const HomePage = () => {
                 className="btn btn-primary col-lg-10 mt-4 "
                 onClick={() => sendDataToGraphQL(medsArray, prescriptionsArray)}
               >
-                Insert data into GraphQL Server
+                Insert and retrieve data from the second server
               </button>
             </div>
           </div>
         ) : null}
       </div>
-
       <hr size="8" width="100%" color="red" />
+      <div className="container-fluid mt-5">
+        {graphQLResponse && showSecondTable == true ? (
+          <div className="row">
+            <div className="prescription-header mt-5 mb-5 d-flex justify-content-center">
+              Data from GraphQL Server
+            </div>
+            <SecondTableData props={graphQLResponse.data.data.allMedications} />
+          </div>
+        ) : null}
+      </div>
+
+      <div className="d-flex justify-content-center mt-5">
+        {graphQLResponse && showSecondTable == true ? (
+          <button
+            className="btn btn-primary col-lg-10 "
+            onClick={handleRDFGetRequest}
+          >
+            Data from the third server
+          </button>
+        ) : null}
+      </div>
+      <div className="container-fluid mt-5">
+        {rdfResponse && showThirdTable == true ? (
+          <div className="row">
+            <div className="prescription-header mt-5 mb-5 d-flex justify-content-center">
+              Data from RDF Response
+            </div>
+            <ThirdTableData props={rdfResponse} />
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
